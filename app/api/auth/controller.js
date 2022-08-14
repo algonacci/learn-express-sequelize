@@ -39,4 +39,41 @@ module.exports = {
       next(error);
     }
   },
+
+  signup: async (req, res, next) => {
+    try {
+        const { name, email, password, confirmPassword } = req.body;
+
+        if (password !== confirmPassword) {
+            res.status(403).json({
+                message: "Passwords do not match"
+            });
+        }
+
+        const checkEmail = await User.findOne({ where: { email } });
+
+        if (checkEmail) {
+            return res.status(403).json({
+                message: "Email already exists"
+            });
+        }
+
+        const user = await User.create({
+            name, email, password: bcrypt.hashSync(password, 10), role: 'admin'
+        });
+
+        delete user.dataValues.password;
+
+        res.status(200).json({
+            message: "Successfully signed up",
+            data: user
+        }); 
+
+    } catch (error) {
+      res.status(500).json({
+        message: error.message,
+      });
+      next(error);
+    }
+  }
 };
