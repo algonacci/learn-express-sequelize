@@ -5,7 +5,7 @@ const logger = require("morgan");
 
 const authRouter = require("./app/api/auth/router");
 const categoriesRouter = require("./app/api/categories/router");
-const URL = "/api/v1";
+const URL = `/api/v1`;
 
 const app = express();
 
@@ -19,7 +19,7 @@ app.listen(3000, () => {
   console.log("[SERVER] Server started on port 3000");
 });
 
-app.use("/", (req, res) => {
+app.get("/", (req, res) => {
   res.json({ message: "Success to fetch the Book Store API!!" });
 });
 app.use(`${URL}`, authRouter);
