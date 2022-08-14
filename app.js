@@ -15,6 +15,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
+app.listen(3000, () => {
+  console.log("[SERVER] Server started on port 3000");
+});
+
 app.use("/", (req, res) => {
   res.json({ message: "Success to fetch the Book Store API!!" });
 });
